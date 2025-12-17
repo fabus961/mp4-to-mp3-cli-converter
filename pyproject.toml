@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mp4-to-mp3"
+version = "0.1.0"
+description = "Convert MP4/M4V/MOV to MP3 using ffmpeg (interactive CBR/VBR + recursive scan + auto-detect)."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "You" }]
+dependencies = []
+
+[project.scripts]
+mp4-to-mp3 = "mp4_to_mp3.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mp4_to_mp3*"]
