@@ -1,0 +1,30 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# ---- macOS ----
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ---- Logs & temp ----
+*.log
+*.tmp
+
+# ---- Generated output ----
+*.mp3
+
+# ---- Tooling / IDEs ----
+.vscode/
+.idea/
+
+# ---- Misc ----
+.coverage
+pytest_cache/

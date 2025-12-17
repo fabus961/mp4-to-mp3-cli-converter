@@ -1,0 +1,2 @@
+# in case you need a python wrapper (but: you need to install ffmpeg separately anyway)
+# ffmpeg-python==0.2.0
