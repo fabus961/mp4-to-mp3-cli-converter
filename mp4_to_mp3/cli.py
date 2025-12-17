@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from . import __version__
 
 import argparse
 import json
@@ -183,6 +184,12 @@ Examples:
         description="Convert MP4/M4V/MOV files to MP3 using ffmpeg (interactive prompts + auto-detect).",
         epilog=examples.strip(),
         formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+
+    p.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {__version__}",
     )
 
     io = p.add_argument_group("Input / Output")
