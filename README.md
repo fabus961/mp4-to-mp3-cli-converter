@@ -174,11 +174,11 @@ This prints all available options and flags.
 
 ### Encoding Auto-Detection
 
-If you **do not specify `--mode`**, the tool will:
+If you **do not specify `--mode`**, the tool will try to detect the source audio codec via `ffprobe`:
 
-1. Inspect the input audio stream
-2. Prefer **VBR** for typical AAC sources
-3. Fall back to **CBR** if detection fails
+* If the audio codec is already **MP3**, it will **copy** the audio stream (no re-encode) when possible.
+* Otherwise it will default to **VBR** (good quality/size trade-off).
+* If detection fails, it falls back to **VBR**.
 
 You can always override this behavior using:
 
@@ -283,12 +283,16 @@ make convert IN="~/Downloads/mp4s" MODE=cbr BITRATE=192k
 
 ```text
 mp4-to-mp3/
-├── mp4_to_mp3.py        # main conversion script
-├── Makefile             # build & run helpers
-├── README.md             # documentation
-├── requirements.txt      # optional Python deps
+├── mp4_to_mp3.py          # optional: standalone script usage (no Makefile needed)
+├── mp4_to_mp3/            # pipx-installable package
+│   ├── __init__.py
+│   └── cli.py
+├── pyproject.toml         # packaging metadata (pipx uses this)
+├── Makefile               # optional convenience wrapper
+├── README.md              # documentation
+├── requirements.txt       # optional Python deps
 ├── .gitignore
-└── .venv/                # virtual environment (not committed)
+└── .venv/                 # virtual environment (not committed)
 ```
 
 Suggested `.gitignore`:
