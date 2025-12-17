@@ -112,6 +112,22 @@ def autodetect_mode(path: Path) -> str:
         return "vbr"
     return "vbr"
 
+def has_audio_stream(path: Path) -> bool:
+    ensure_tools()
+    cmd = [
+        "ffprobe",
+        "-v", "error",
+        "-select_streams", "a",
+        "-show_entries", "stream=index",
+        "-of", "json",
+        str(path),
+    ]
+    try:
+        out = subprocess.check_output(cmd, text=True)
+        data = json.loads(out)
+        return bool(data.get("streams"))
+    except Exception:
+        return False
 
 def run_ffmpeg(
     input_path: Path,
@@ -130,6 +146,7 @@ def run_ffmpeg(
         "-nostats",
         "-i", str(input_path),
         "-vn",
+        "-map", "0:a:0",
         "-map_metadata", "0",
     ]
 
@@ -242,6 +259,10 @@ def main() -> None:
             file_mode = autodetect_mode(f)
 
         print(f"Converting: {f} -> {out_file} [{file_mode.upper()}]")
+        if not has_audio_stream(f):
+            print(f"  No audio stream found, skipping.")
+            continue
+
         run_ffmpeg(
             input_path=f,
             output_path=out_file,
