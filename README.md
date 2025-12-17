@@ -18,7 +18,7 @@ Technically this performs: **demux → decode → MP3 encode**.
 
 ## Demo / Usage Preview
 
-```bash
+```text
 $ make convert IN="~/Downloads/mp4s"
 
 ? CBR or VBR? [Default: VBR]
@@ -93,7 +93,124 @@ This will:
 * check for `ffmpeg`
 * create `.venv`
 * upgrade `pip`
-<!-- not yet necessary: * install dependencies from `requirements.txt` (if present) -->
+* install dependencies from `requirements.txt` (if present)
+
+---
+
+## Usage
+
+You can use this tool **with or without Makefile**.
+
+---
+
+### Usage via Makefile (recommended for convenience)
+
+Single file:
+
+```bash
+make convert IN="~/Downloads/video.mp4"
+```
+
+Directory (interactive prompts):
+
+```bash
+make convert IN="~/Downloads/mp4s"
+```
+
+Non-interactive:
+
+```bash
+make convert IN="~/Downloads/mp4s" MODE=vbr VBRQ=2 RECURSIVE=1 OVERWRITE=1
+```
+
+---
+
+### Usage without Makefile (plain Python)
+
+Direct execution:
+
+```bash
+python3 mp4_to_mp3.py ~/Downloads/video.mp4
+```
+
+Directory:
+
+```bash
+python3 mp4_to_mp3.py ~/Downloads/mp4s
+```
+
+Make it executable:
+
+```bash
+chmod +x mp4_to_mp3.py
+./mp4_to_mp3.py ~/Downloads/video.mp4
+```
+
+Install into PATH (optional):
+
+```bash
+mkdir -p ~/.local/bin
+cp mp4_to_mp3.py ~/.local/bin/mp4-to-mp3
+chmod +x ~/.local/bin/mp4-to-mp3
+```
+
+Then use anywhere:
+
+```bash
+mp4-to-mp3 ~/Downloads/mp4s
+```
+
+---
+
+### CLI Help
+
+```bash
+mp4-to-mp3 --help
+```
+
+This prints all available options and flags.
+
+---
+
+### Encoding Auto-Detection
+
+If you **do not specify `--mode`**, the tool will:
+
+1. Inspect the input audio stream
+2. Prefer **VBR** for typical AAC sources
+3. Fall back to **CBR** if detection fails
+
+You can always override this behavior using:
+
+```bash
+--mode cbr
+--mode vbr
+```
+
+---
+
+### pipx Installation (optional)
+
+You can install this tool globally using `pipx`.
+
+1. Install pipx (once):
+
+```bash
+brew install pipx
+pipx ensurepath
+```
+
+2. From the project directory:
+
+```bash
+pipx install .
+```
+
+After that, you can use:
+
+```bash
+mp4-to-mp3 ~/Downloads/video.mp4
+```
 
 ---
 
